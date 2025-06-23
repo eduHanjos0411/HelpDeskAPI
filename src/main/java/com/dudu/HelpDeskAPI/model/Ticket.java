@@ -1,17 +1,14 @@
 package com.dudu.HelpDeskAPI.model;
 
+import com.dudu.HelpDeskAPI.enums.Categoria;
 import com.dudu.HelpDeskAPI.enums.Prioridade;
 import com.dudu.HelpDeskAPI.enums.Status;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
-import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -24,9 +21,16 @@ public class Ticket {
     private String titulo;
     private String descricao;
     private Instant dataDeCriacao;
+
+    @Enumerated(EnumType.STRING)
     private Status status;
+
+    @Enumerated(EnumType.STRING)
     private Prioridade prioridade;
-    private String categoria;
+
+    @Enumerated(EnumType.STRING)
+    private Categoria categoria;
+
     private User solicitante;
     private User responsavel;
 
