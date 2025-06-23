@@ -1,4 +1,4 @@
-package com.dudu.HelpDeskAPI.dto;
+package com.dudu.HelpDeskAPI.dto.user;
 
 public record UserRequest(
         String nome,

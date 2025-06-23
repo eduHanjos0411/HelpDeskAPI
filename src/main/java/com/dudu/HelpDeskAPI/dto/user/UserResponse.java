@@ -1,4 +1,4 @@
-package com.dudu.HelpDeskAPI.dto;
+package com.dudu.HelpDeskAPI.dto.user;
 
 import com.dudu.HelpDeskAPI.model.User;
 import lombok.Builder;

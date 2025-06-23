@@ -1,7 +1,7 @@
 package com.dudu.HelpDeskAPI.service;
 
-import com.dudu.HelpDeskAPI.dto.UserRequest;
-import com.dudu.HelpDeskAPI.dto.UserResponse;
+import com.dudu.HelpDeskAPI.dto.user.UserRequest;
+import com.dudu.HelpDeskAPI.dto.user.UserResponse;
 import com.dudu.HelpDeskAPI.model.User;
 import com.dudu.HelpDeskAPI.repository.UserRepository;
 import org.springframework.stereotype.Service;
