@@ -1,5 +1,7 @@
 package com.dudu.HelpDeskAPI.model;
 
+import com.dudu.HelpDeskAPI.enums.Prioridade;
+import com.dudu.HelpDeskAPI.enums.Status;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,13 +12,14 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
 public class Ticket {
 
     @Id @GeneratedValue(strategy = GenerationType.UUID)
-    private Long id;
+    private UUID id;
 
     private String titulo;
     private String descricao;
