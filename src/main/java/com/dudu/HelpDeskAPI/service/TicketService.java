@@ -5,6 +5,7 @@ import com.dudu.HelpDeskAPI.dto.ticket.TicketResponse;
 import com.dudu.HelpDeskAPI.dto.user.UserResponse;
 import com.dudu.HelpDeskAPI.enums.Status;
 import com.dudu.HelpDeskAPI.model.Ticket;
+import com.dudu.HelpDeskAPI.model.User;
 import com.dudu.HelpDeskAPI.repository.TicketRepository;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +46,8 @@ public class TicketService {
                 ticketFound.getPrioridade(), ticketFound.getSolicitante());
     }
 
-    public TicketResponse getTicketByUserId(Long id) {
-
+    public List<TicketResponse> getTicketByUserId(Long id) {
+        User ticketOfUserFound = ticketRepository.findById(id);
+        for
     }
 }

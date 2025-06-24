@@ -12,6 +12,7 @@ public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @OneToOne(mappedBy ="solicitante")
+    @PrimaryKeyJoinColumn
     private Long id;
 
     private String nome;

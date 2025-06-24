@@ -31,9 +31,11 @@ public class Ticket {
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
 
-    @OneToOne()
+    @OneToOne
     @JoinColumn(name = "id_solicitante")
+    @MapsId
     private User solicitante;
+
     private User responsavel;
 
 
