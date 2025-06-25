@@ -9,10 +9,17 @@ public record UserResponse(
         String email
 ) {
 
-    public static UserResponse fromEntity(User user) {
-        return UserResponse.builder()
-                .nome(user.getNome())
-                .email(user.getEmail())
-                .build();
+    public UserResponse (User u) {
+        this(
+                u.getNome(),
+                u.getEmail()
+        );
+    }
+
+    public UserResponse(UserRequest ur) {
+        this(
+                ur.nome(),
+                ur.email()
+        );
     }
 }
