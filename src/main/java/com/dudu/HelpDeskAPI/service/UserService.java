@@ -18,18 +18,18 @@ public class UserService {
     }
 
 
-    public UserResponse createNewUser(UserRequest dataToCreate) {
+    public void createNewUser(UserRequest dataToCreate) {
         User newUser = new User();
         newUser.setNome(dataToCreate.nome());
         newUser.setEmail(dataToCreate.email());
         newUser.setSenha(dataToCreate.senha());
+        newUser.setPerfil(dataToCreate.perfil());
         userRepository.save(newUser);
 
-        return new UserResponse(dataToCreate.nome(), dataToCreate.email());
     }
 
     public List<UserResponse> getAllUsers() {
-        return userRepository.findAll().stream().map(UserResponse::fromEntity).toList();
+        return userRepository.findAll().stream().map(UserResponse::new).toList();
     }
 
     public UserResponse getUserById(Long id) {
