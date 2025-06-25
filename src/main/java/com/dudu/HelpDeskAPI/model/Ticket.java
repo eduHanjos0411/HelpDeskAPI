@@ -8,19 +8,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
-import java.util.UUID;
+import java.time.LocalDateTime;
 
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
 public class Ticket {
 
-    @Id @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     private String titulo;
     private String descricao;
-    private Instant dataDeCriacao;
+
 
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -31,12 +30,26 @@ public class Ticket {
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_solicitante")
-    @MapsId
     private User solicitante;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_responsavel")
     private User responsavel;
 
+    private LocalDateTime atualizadoEm;
+    private LocalDateTime criadoEm;
 
+    @PrePersist
+    public void prePersist() {
+        LocalDateTime agora = LocalDateTime.now();
+        this.criadoEm = agora;
+        this.atualizadoEm = agora;
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.atualizadoEm = LocalDateTime.now();
+    }
 }
