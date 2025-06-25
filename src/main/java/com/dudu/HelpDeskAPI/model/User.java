@@ -6,13 +6,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
+@Table(name = "users")
 @Data @NoArgsConstructor @AllArgsConstructor
 public class User {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @OneToOne(mappedBy ="solicitante")
-    @PrimaryKeyJoinColumn
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nome;
@@ -22,5 +25,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Perfil perfil;
 
+    @OneToMany(mappedBy = "solicitante", cascade = CascadeType.ALL)
+    private List<Ticket> ticketsCriados = new ArrayList<>();
 
+    @OneToMany(mappedBy = "responsavel", cascade = CascadeType.ALL)
+    private List<Ticket> ticketsResponsavel = new ArrayList<>();
 }
