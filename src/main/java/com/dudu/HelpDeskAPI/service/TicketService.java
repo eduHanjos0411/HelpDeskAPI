@@ -5,7 +5,9 @@ import com.dudu.HelpDeskAPI.dto.ticket.TicketResponse;
 import com.dudu.HelpDeskAPI.dto.ticket.TicketPutRequest;
 import com.dudu.HelpDeskAPI.enums.Status;
 import com.dudu.HelpDeskAPI.model.Ticket;
+import com.dudu.HelpDeskAPI.model.User;
 import com.dudu.HelpDeskAPI.repository.TicketRepository;
+import com.dudu.HelpDeskAPI.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,23 +16,25 @@ import java.util.List;
 public class TicketService {
 
     public final TicketRepository ticketRepository;
+    public final UserRepository userRepository;
 
-    public TicketService(TicketRepository ticketRepository) {
+    public TicketService(TicketRepository ticketRepository, UserRepository userRepository) {
         this.ticketRepository = ticketRepository;
+        this.userRepository = userRepository;
     }
 
-    public TicketResponse createNewTicket(TicketRequest dataToCreateTicket) {
+    public void createNewTicket(TicketRequest dataToCreateTicket) {
+        User solicitante = userRepository.getReferenceById(dataToCreateTicket.solicitanteId());
+
         Ticket newTicket = new Ticket();
         newTicket.setTitulo(dataToCreateTicket.titulo());
         newTicket.setDescricao(dataToCreateTicket.descricao());
         newTicket.setStatus(Status.valueOf("ABERTO"));
         newTicket.setCategoria(dataToCreateTicket.categoria());
         newTicket.setPrioridade(dataToCreateTicket.prioridade());
-        newTicket.setSolicitante(dataToCreateTicket.solicitante());
+        newTicket.setSolicitante(solicitante);
 
         ticketRepository.save(newTicket);
-
-        return new TicketResponse(newTicket);
     }
 
     public List<TicketResponse> getAllTickets() {
@@ -42,20 +46,21 @@ public class TicketService {
                 .orElseThrow(() -> new RuntimeException("Ticket not Found"));
 
         return new TicketResponse(ticketFound.getTitulo(), ticketFound.getDescricao(), ticketFound.getCategoria(),
-                ticketFound.getPrioridade(), ticketFound.getSolicitante(), ticketFound.getCriadoEm(),
-                ticketFound.getAtualizadoEm());
+                ticketFound.getPrioridade(), ticketFound.getSolicitante().getId());
     }
 
     public List<TicketResponse> getTicketByUserId(Long userId) {
         return ticketRepository.findBySolicitanteId(userId).stream().map(TicketResponse::new).toList();
     }
 
-    public TicketResponse updateTicketStatusOrTecnician(TicketPutRequest newData) {
-        Ticket ticketToUpdate = ticketRepository.findById(newData.id())
+    public TicketResponse updateTicketStatusOrTecnician(Long id,TicketPutRequest newData) {
+        User responsavel = userRepository.getReferenceById(newData.responsavelId());
+
+        Ticket ticketToUpdate = ticketRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Ticket not Found"));
 
         ticketToUpdate.setStatus(newData.status());
-        ticketToUpdate.setResponsavel(newData.responsavel());
+        ticketToUpdate.setResponsavel(responsavel);
 
         ticketRepository.save(ticketToUpdate);
 

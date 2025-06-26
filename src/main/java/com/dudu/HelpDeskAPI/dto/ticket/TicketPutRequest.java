@@ -4,8 +4,7 @@ import com.dudu.HelpDeskAPI.enums.Status;
 import com.dudu.HelpDeskAPI.model.User;
 
 public record TicketPutRequest(
-        Long id,
         Status status,
-        User responsavel
+        Long responsavelId
 )
 {}
